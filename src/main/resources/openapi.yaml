@@ -1,0 +1,118 @@
+openapi: 3.0.3
+info:
+  title: API de Empacotamento de Pedidos
+  description: API para determinar a melhor forma de empacotar pedidos de produtos em caixas disponíveis.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Servidor local
+
+paths:
+  /api/empacotar:
+    post:
+      summary: Empacota os produtos dos pedidos usando as caixas disponíveis
+      operationId: empacotarPedidos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequisicaoEmpacotamento'
+      responses:
+        '200':
+          description: Empacotamento realizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RespostaEmpacotamento'
+        '400':
+          description: Requisição inválida
+        '500':
+          description: Erro interno do servidor
+
+components:
+  schemas:
+
+    RequisicaoEmpacotamento:
+      type: object
+      properties:
+        pedidos:
+          type: array
+          items:
+            $ref: '#/components/schemas/PedidoRequisicao'
+      required:
+        - pedidos
+
+    PedidoRequisicao:
+      type: object
+      properties:
+        pedido_id:
+          type: integer
+          example: 1
+        produtos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Produto'
+      required:
+        - pedido_id
+        - produtos
+
+    Produto:
+      type: object
+      properties:
+        produto_id:
+          type: string
+          example: PS5
+        dimensoes:
+          $ref: '#/components/schemas/Dimensoes'
+      required:
+        - produto_id
+        - dimensoes
+
+    Dimensoes:
+      type: object
+      properties:
+        altura:
+          type: integer
+          example: 40
+        largura:
+          type: integer
+          example: 30
+        comprimento:
+          type: integer
+          example: 25
+      required:
+        - altura
+        - largura
+        - comprimento
+
+    RespostaEmpacotamento:
+      type: object
+      properties:
+        pedidos:
+          type: array
+          items:
+            $ref: '#/components/schemas/PedidoResposta'
+
+    PedidoResposta:
+      type: object
+      properties:
+        pedido_id:
+          type: integer
+          example: 1
+        caixas:
+          type: array
+          items:
+            $ref: '#/components/schemas/CaixaResposta'
+
+    CaixaResposta:
+      type: object
+      properties:
+        caixa_id:
+          type: string
+          example: Caixa 1
+        produtos:
+          type: array
+          items:
+            type: string
+          example: ["PS5", "Volante"]

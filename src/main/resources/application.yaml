@@ -1,0 +1,21 @@
+spring:
+  jackson:
+    default-property-inclusion: non_null
+
+empacotamento:
+  caixas:
+    - id: "Caixa 1"
+      dimensao:
+        largura: 30
+        altura: 40
+        profundidade: 80
+    - id: "Caixa 2"
+      dimensao:
+        largura: 80
+        altura: 50
+        profundidade: 40
+    - id: "Caixa 3"
+      dimensao:
+        largura: 50
+        altura: 80
+        profundidade: 60
