@@ -3,8 +3,9 @@ package org.l2code.domain.useCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.l2code.application.dto.PedidoDTO;
-import org.l2code.application.dto.PedidosRequestDTO;
+import org.l2code.application.dto.RequisicaoEmpacotamentoDTO;
 import org.l2code.application.dto.ProdutoDTO;
+import org.l2code.application.exception.EmpacotamentoException;
 import org.l2code.domain.dto.CaixaDisponivelDTO;
 import org.l2code.domain.dto.CaixaEmpacotada;
 import org.l2code.domain.dto.PedidoEmpacotado;
@@ -24,20 +25,35 @@ public class EmpacotamentoUseCase implements IEmpacotamentoUseCase {
     private final CaixasProperties properties;
 
     @Override
-    public RespostaEmpacotamento executar(PedidosRequestDTO pedidosRequestDTO) {
+    public RespostaEmpacotamento executar(RequisicaoEmpacotamentoDTO pedidosRequestDTO) {
         log.info("Iniciando processo de calculo de empacotamento");
 
-        List<CaixaDisponivelDTO> caixasDisponiveis = getCaixasDisponiveis();
+        try {
 
-        var pedidosEmpacotados = pedidosRequestDTO.getPedidos().stream()
-                .map(p -> empacotarPedido(p, caixasDisponiveis))
-                .sorted(Comparator.comparing(PedidoEmpacotado::pedidoId))
-                .toList();
+            //validarPedidosRequestUseCase.executar(pedidosRequestDTO);
 
-        log.info("Processo de empacotamento finalizado");
-        log.info("Pedidos empacotados: {}", pedidosEmpacotados.size());
+            if (pedidosRequestDTO == null || pedidosRequestDTO.getPedidos() == null) {
+                throw new EmpacotamentoException("Lista de pedidos não pode ser nula.");
+            }
 
-        return new RespostaEmpacotamento(pedidosEmpacotados);
+            List<CaixaDisponivelDTO> caixasDisponiveis = getCaixasDisponiveis();
+
+            var pedidosEmpacotados = pedidosRequestDTO.getPedidos().stream()
+                    .map(p -> empacotarPedido(p, caixasDisponiveis))
+                    .sorted(Comparator.comparing(PedidoEmpacotado::pedidoId))
+                    .toList();
+
+            log.info("Processo de empacotamento finalizado");
+            log.info("Pedidos empacotados: {}", pedidosEmpacotados.size());
+
+            return new RespostaEmpacotamento(pedidosEmpacotados);
+        } catch (EmpacotamentoException e) {
+            log.error("Erro no empacotamento: {}", e.getMessage(), e);
+            throw e; // ou retorne um objeto de resposta com erro, se preferir
+        } catch (Exception e) {
+            log.error("Erro inesperado no empacotamento", e);
+            throw new EmpacotamentoException("Erro inesperado no processo de empacotamento", e);
+        }
     }
 
     public List<CaixaDisponivelDTO> getCaixasDisponiveis() {

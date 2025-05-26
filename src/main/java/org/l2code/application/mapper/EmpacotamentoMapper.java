@@ -15,5 +15,4 @@ public interface EmpacotamentoMapper {
     List<PedidoResposta> toPedidosResposta(List<PedidoEmpacotado> pedidos);
     PedidoResposta toPedidoResposta(PedidoEmpacotado pedido);
     CaixaResposta toCaixaResposta(CaixaEmpacotada caixa);
-
 }

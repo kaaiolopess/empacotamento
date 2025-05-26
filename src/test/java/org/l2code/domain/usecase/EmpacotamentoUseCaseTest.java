@@ -1,12 +1,11 @@
-/*
 package org.l2code.domain.usecase;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.l2code.application.dto.DimensoesDTO;
 import org.l2code.application.dto.PedidoDTO;
-import org.l2code.application.dto.PedidosRequestDTO;
 import org.l2code.application.dto.ProdutoDTO;
+import org.l2code.application.dto.RequisicaoEmpacotamentoDTO;
 import org.l2code.domain.dto.Dimensao;
 import org.l2code.domain.dto.RespostaEmpacotamento;
 import org.l2code.domain.properties.CaixasProperties;
@@ -44,7 +43,7 @@ public class EmpacotamentoUseCaseTest {
         ProdutoDTO produto3 = new ProdutoDTO("produto-3", new DimensoesDTO(100, 100, 100));
 
         PedidoDTO pedido = new PedidoDTO(1, List.of(produto1, produto2, produto3));
-        PedidosRequestDTO request = new PedidosRequestDTO(List.of(pedido));
+        RequisicaoEmpacotamentoDTO request = new RequisicaoEmpacotamentoDTO(List.of(pedido));
 
         RespostaEmpacotamento resposta = useCase.executar(request);
 
@@ -74,4 +73,3 @@ public class EmpacotamentoUseCaseTest {
         assertEquals("Produto não cabe em nenhuma caixa disponível.", produtoNaoAlocado.observacao());
     }
 }
-*/

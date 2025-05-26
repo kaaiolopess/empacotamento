@@ -39,11 +39,11 @@ components:
         pedidos:
           type: array
           items:
-            $ref: '#/components/schemas/PedidoRequisicao'
+            $ref: '#/components/schemas/Pedido'
       required:
         - pedidos
 
-    PedidoRequisicao:
+    Pedido:
       type: object
       properties:
         pedido_id:

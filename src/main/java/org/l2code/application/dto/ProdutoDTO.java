@@ -3,11 +3,12 @@ package org.l2code.application.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Getter
+@Setter
 public class ProdutoDTO {
     @JsonProperty("produto_id")
     private String produtoId;

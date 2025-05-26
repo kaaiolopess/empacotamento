@@ -5,11 +5,12 @@ import lombok.*;
 
 import java.util.List;
 
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Getter
+@Setter
 public class PedidoDTO {
     @JsonProperty("pedido_id")
     private Integer pedidoId;
