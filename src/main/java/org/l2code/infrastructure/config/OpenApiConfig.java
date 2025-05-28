@@ -1,4 +1,4 @@
-package org.l2code.application;
+package org.l2code.infrastructure.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
